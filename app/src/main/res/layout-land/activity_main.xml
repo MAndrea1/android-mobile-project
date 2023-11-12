@@ -6,52 +6,16 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <EditText
-        android:id="@+id/etUsername"
-        android:layout_width="288dp"
-        android:layout_height="46dp"
-        android:ems="10"
-        android:hint="@string/name"
-        android:inputType="text"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.767"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.331"
-        android:autofillHints="username" />
-
-    <EditText
-        android:id="@+id/etPassword"
-        android:layout_width="285dp"
-        android:layout_height="47dp"
-        android:layout_marginTop="16dp"
-        android:ems="10"
-        android:hint="@string/password"
-        android:inputType="textPassword"
-        app:layout_constraintEnd_toEndOf="@+id/etUsername"
-        app:layout_constraintTop_toBottomOf="@+id/etUsername"
-        android:autofillHints="password" />
-
     <ImageView
         android:id="@+id/ivLogo"
         android:layout_width="197dp"
         android:layout_height="170dp"
+        android:contentDescription="@string/wallet_logo"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.187"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/icon"
-        android:contentDescription="@string/wallet_logo" />
+        app:layout_constraintVertical_bias="0.497"
+        app:srcCompat="@drawable/icon" />
 
-    <Button
-        android:id="@+id/btnLogin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:onClick="loginClicked"
-        android:text="@string/login"
-        app:layout_constraintEnd_toEndOf="@+id/etPassword"
-        app:layout_constraintTop_toBottomOf="@+id/etPassword" />
 </androidx.constraintlayout.widget.ConstraintLayout>

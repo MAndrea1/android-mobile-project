@@ -14,14 +14,5 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun loginClicked(view: View) {
-        var usernameField = findViewById<EditText>(R.id.etUsername)
-        var username = usernameField.text.toString()
-        var passwordField = findViewById<EditText>(R.id.etPassword)
-        var password = passwordField.text.toString()
 
-        Log.d("login", username + password)
-        Toast.makeText(this, "Incorrect name or password", Toast.LENGTH_LONG).show()
-
-    }
 }
