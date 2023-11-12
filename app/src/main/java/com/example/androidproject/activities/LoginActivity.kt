@@ -1,4 +1,4 @@
-package com.example.androidproject
+package com.example.androidproject.activities
 
 import android.content.Context
 import android.content.Intent
@@ -7,6 +7,8 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.EditText
+import com.example.androidproject.mock.ExternalLogin
+import com.example.androidproject.R
 import com.google.android.material.snackbar.Snackbar
 
 class LoginActivity : AppCompatActivity() {
