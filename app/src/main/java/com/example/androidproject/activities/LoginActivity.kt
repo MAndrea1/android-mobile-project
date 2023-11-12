@@ -25,7 +25,7 @@ class LoginActivity : AppCompatActivity() {
         val usernameSP = loginData.getString("username", "")
         val passwordSP = loginData.getString("password", "")
 
-        Log.d("sanity", "$usernameSP $passwordSP")
+//        Log.d("sanity", "$usernameSP $passwordSP")
 
         if (!usernameSP.isNullOrBlank() && !passwordSP.isNullOrBlank()) {
             autoLogin(usernameSP, passwordSP)

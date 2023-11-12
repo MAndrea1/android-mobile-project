@@ -2,6 +2,7 @@ package com.example.androidproject.activities
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.viewpager2.widget.ViewPager2
 import com.example.androidproject.R
 import com.example.androidproject.adapters.ViewPagerAdapter
@@ -22,6 +23,9 @@ class MainActivity : AppCompatActivity() {
 
         viewPager2.adapter = adapter
 
+        val toolbar: Toolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)
+
         val tabLayoutMediator = TabLayoutMediator(tabLayout, viewPager2,
             TabLayoutMediator.TabConfigurationStrategy { tab, position ->
                 when(position) {
@@ -31,5 +35,17 @@ class MainActivity : AppCompatActivity() {
                 }
             })
         tabLayoutMediator.attach()
+
+        viewPager2.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                when (position) {
+                    0 -> supportActionBar?.title = getString(R.string.tab_label_dashboards)
+                    1 -> supportActionBar?.title = getString(R.string.tab_label_wallets)
+                    2 -> supportActionBar?.title = getString(R.string.tab_label_info)
+                }
+                invalidateOptionsMenu() // Invalidate the options menu to recreate it
+            }
+        })
     }
 }

@@ -7,4 +7,9 @@
     <string name="tab_label_dashboards">Dashboards</string>
     <string name="tab_label_wallets">Wallets</string>
     <string name="tab_label_info">Info</string>
+    <string name="menu_item_add_wallet">Add Wallet</string>
+    <string name="tab_menu_speakable">Tab menu for Dashboards, Wallets, Info</string>
+    <string name="et_wallet_name">Wallet Name</string>
+    <string name="et_amount">Amount</string>
+    <string name="btn_save">Save</string>
 </resources>
