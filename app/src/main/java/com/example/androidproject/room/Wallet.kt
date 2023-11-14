@@ -10,6 +10,4 @@ data class Wallet(
     val walletName: String,
     val walletAmount: Float,
     val walletCurrency: String
-
-    //TODO: Add the currency type and commit before moving on
 )

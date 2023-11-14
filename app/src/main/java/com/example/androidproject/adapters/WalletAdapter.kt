@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.androidproject.R
-import com.example.androidproject.model.Wallet
+import com.example.androidproject.room.Wallet
 
 
 class WalletAdapter(private val walletList : ArrayList<Wallet>) : RecyclerView.Adapter<WalletAdapter.WalletViewHolder>() {
@@ -16,11 +16,13 @@ class WalletAdapter(private val walletList : ArrayList<Wallet>) : RecyclerView.A
         parent: ViewGroup,
         viewType: Int
     ): WalletAdapter.WalletViewHolder {
+        Log.d("walletFrag", "in onCreateViewHolder$walletList")
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_wallet, parent, false)
         return WalletViewHolder(itemView)
     }
 
     override fun onBindViewHolder(holder: WalletAdapter.WalletViewHolder, position: Int) {
+        Log.d("walletFrag", "in onBindViewHolder$walletList")
         val currentItem = walletList[position]
         holder.walletName.text = currentItem.walletName
         holder.walletCurrency.text = currentItem.walletCurrency

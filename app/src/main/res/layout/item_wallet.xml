@@ -19,7 +19,7 @@
         android:layout_weight="1"
         android:textSize="20sp"
         android:gravity="end"
-        android:text="@string/et_wallet_name" />
+        android:text="CUR" />
 
     <TextView
         android:id="@+id/lblWalletAmount"
@@ -28,5 +28,5 @@
         android:layout_weight="1"
         android:textSize="20sp"
         android:gravity="end"
-        android:text="@string/et_wallet_name" />
+        android:text="0.00" />
 </LinearLayout>

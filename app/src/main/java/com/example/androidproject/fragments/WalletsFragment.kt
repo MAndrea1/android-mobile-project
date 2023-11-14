@@ -16,9 +16,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.androidproject.R
 import com.example.androidproject.activities.WalletActivity
 import com.example.androidproject.adapters.WalletAdapter
-import com.example.androidproject.model.Wallet
+import com.example.androidproject.room.Wallet
 import com.example.androidproject.room.WalletDatabase
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 import java.util.Arrays
 
@@ -42,24 +44,25 @@ class WalletsFragment : Fragment() {
     private lateinit var walletList: ArrayList<Wallet>
     private val walletDatabase by lazy { WalletDatabase.getDatabase(requireContext()).walletDao() }
 
-    private fun getWalletsFromDB() {
-        lifecycleScope.launch {
-//            walletList = ArrayList(walletDatabase.getAllWallets())
-            adapter.notifyDataSetChanged() // Notify the adapter that the data has changed
+    private suspend fun getWalletsFromDB() {
+        withContext(Dispatchers.IO) {
+            walletList = ArrayList(walletDatabase.getAllWallets())
+            println("Updated walletFrag walletList: $walletList")
         }
     }
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        walletList = ArrayList() // Initialize an empty list
-
+    private fun initializeRecyclerView(view: View) {
         adapter = WalletAdapter(walletList)
         recyclerView = view.findViewById(R.id.recycler_wallet)
         val recyclerLayout = LinearLayoutManager(context)
         recyclerView.layoutManager = recyclerLayout
         recyclerView.adapter = adapter
-
-        getWalletsFromDB() // Start observing notes and update the walletList
+    }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        lifecycleScope.launch {
+            getWalletsFromDB()
+            initializeRecyclerView(view)
+        }
     }
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.wallet, menu)
