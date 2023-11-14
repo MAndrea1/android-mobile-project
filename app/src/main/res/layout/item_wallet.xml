@@ -13,6 +13,15 @@
         android:text="@string/et_wallet_name" />
 
     <TextView
+        android:id="@+id/lblWalletAmount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="end"
+        android:text="0.00"
+        android:textSize="20sp" />
+
+    <TextView
         android:id="@+id/lblWalletCurrency"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -21,12 +30,4 @@
         android:gravity="end"
         android:text="CUR" />
 
-    <TextView
-        android:id="@+id/lblWalletAmount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:textSize="20sp"
-        android:gravity="end"
-        android:text="0.00" />
 </LinearLayout>
