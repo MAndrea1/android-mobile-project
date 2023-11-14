@@ -1,5 +1,6 @@
 package com.example.androidproject.activities
 
+import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -48,6 +49,9 @@ class WalletActivity : AppCompatActivity() {
         if (!walletName.isNullOrBlank() && !walletAmountText.isNullOrBlank() && !selectedCurrency.isNullOrBlank()) {
             lifecycleScope.launch {
                 walletDatabase.insert(Wallet(walletName = walletName, walletAmount = walletAmount, walletCurrency = selectedCurrency))
+                setResult(Activity.RESULT_OK)
+                // Finish the activity to return to the calling fragment
+                finish()
             }
             observeNotes()
         } else {

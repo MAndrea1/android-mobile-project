@@ -47,7 +47,6 @@ class WalletsFragment : Fragment() {
     private suspend fun getWalletsFromDB() {
         withContext(Dispatchers.IO) {
             walletList = ArrayList(walletDatabase.getAllWallets())
-            println("Updated walletFrag walletList: $walletList")
         }
     }
     private fun initializeRecyclerView(view: View) {
