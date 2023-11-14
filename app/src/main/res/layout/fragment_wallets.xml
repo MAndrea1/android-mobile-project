@@ -5,13 +5,9 @@
     android:layout_height="match_parent"
     tools:context=".fragments.WalletsFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-
-    <TextView
-        android:id="@+id/toolbar_wallet"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_wallet"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="This is the wallets fragment" />
-
+        tools:listitem="@layout/item_wallet" />
 </FrameLayout>

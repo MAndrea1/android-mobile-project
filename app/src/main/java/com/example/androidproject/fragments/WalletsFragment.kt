@@ -2,6 +2,7 @@ package com.example.androidproject.fragments
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.Menu
@@ -9,9 +10,17 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.androidproject.R
-import com.example.androidproject.activities.MainActivity
 import com.example.androidproject.activities.WalletActivity
+import com.example.androidproject.adapters.WalletAdapter
+import com.example.androidproject.model.Wallet
+import com.example.androidproject.room.WalletDatabase
+import kotlinx.coroutines.launch
+
+import java.util.Arrays
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -28,11 +37,34 @@ class WalletsFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    private lateinit var adapter : WalletAdapter
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var walletList: ArrayList<Wallet>
+    private val walletDatabase by lazy { WalletDatabase.getDatabase(requireContext()).walletDao() }
+
+    private fun getWalletsFromDB() {
+        lifecycleScope.launch {
+//            walletList = ArrayList(walletDatabase.getAllWallets())
+            adapter.notifyDataSetChanged() // Notify the adapter that the data has changed
+        }
+    }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        walletList = ArrayList() // Initialize an empty list
+
+        adapter = WalletAdapter(walletList)
+        recyclerView = view.findViewById(R.id.recycler_wallet)
+        val recyclerLayout = LinearLayoutManager(context)
+        recyclerView.layoutManager = recyclerLayout
+        recyclerView.adapter = adapter
+
+        getWalletsFromDB() // Start observing notes and update the walletList
+    }
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.wallet, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_new_wallet -> {
@@ -43,7 +75,6 @@ class WalletsFragment : Fragment() {
             else -> return super.onOptionsItemSelected(item)
         }
     }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
@@ -52,7 +83,6 @@ class WalletsFragment : Fragment() {
             param2 = it.getString(ARG_PARAM2)
         }
     }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
