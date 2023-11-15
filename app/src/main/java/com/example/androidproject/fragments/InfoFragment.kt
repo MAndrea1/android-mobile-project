@@ -1,11 +1,16 @@
 package com.example.androidproject.fragments
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.lifecycleScope
 import com.example.androidproject.R
+import com.example.androidproject.api.CurrenciesAPI
+import com.example.androidproject.api.HttpClientSingleton
+import kotlinx.coroutines.launch
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -36,6 +41,42 @@ class InfoFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_info, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val okHttpClient = HttpClientSingleton.instance
+        val currenciesAPI = CurrenciesAPI(okHttpClient, viewLifecycleOwner.lifecycleScope)
+
+        currenciesAPI.getPrices("https://cex.io/api/tickers/BTC/USD") { result ->
+
+            activity?.runOnUiThread {
+                Log.d("currenciesAPI", "from infoFragment ")
+            }
+        }
+
+        currenciesAPI.getPrices("https://api.bluelytics.com.ar/v2/latest") { result ->
+
+            activity?.runOnUiThread {
+                Log.d("currenciesAPI", "from infoFragment ")
+            }
+        }
+
+//        lifecycleScope.launch {
+//            try {
+//                val result = currenciesAPI.getPrices()
+//                Log.d("InfoFrag", result)
+//                // Process the result on the main thread, for example, update UI
+//                activity?.runOnUiThread {
+//                    // Your UI update code here
+//                    // Log.d("currenciesAPI", "from InfoFragment $result")
+//                }
+//            } catch (e: Exception) {
+//                // Handle the exception, if needed
+//                e.printStackTrace()
+//            }
+//        }
     }
 
     companion object {

@@ -53,17 +53,17 @@ class WalletActivity : AppCompatActivity() {
                 // Finish the activity to return to the calling fragment
                 finish()
             }
-            observeNotes()
+            checkValues()
         } else {
             val rootView = findViewById<View>(R.id.activity_wallet)
             val snackbar = Snackbar.make(rootView, "Data missing", Snackbar.LENGTH_LONG)
             snackbar.show()
         }
     }
-    private fun observeNotes() {
+    private fun checkValues() {
         lifecycleScope.launch {
             var allWallets = walletDatabase.getAllWallets()
-            Log.d("wallet", allWallets.toString())
+//            Log.d("wallet", allWallets.toString())
         }
     }
 }
