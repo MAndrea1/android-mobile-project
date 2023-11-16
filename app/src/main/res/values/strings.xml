@@ -12,4 +12,11 @@
     <string name="et_wallet_name">Wallet Name</string>
     <string name="et_amount">Amount</string>
     <string name="btn_save">Save</string>
+    <string name="lbl_oficial">Oficial</string>
+    <string name="lbl_blue">Blue</string>
+    <string name="lbl_usd">USD</string>
+    <string name="lbl_btc">BTC</string>
+    <string name="wallet_total">Wallets total: %s USD</string>
+    <string name="no_wallets">No wallets available</string>
+    <string name="getting_wallets">Getting Wallets…</string>
 </resources>

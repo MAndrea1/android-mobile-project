@@ -6,11 +6,25 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.lifecycle.lifecycleScope
 import com.example.androidproject.R
 import com.example.androidproject.api.CurrenciesAPI
 import com.example.androidproject.api.HttpClientSingleton
-import kotlinx.coroutines.launch
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.Json
+
+@Serializable
+data class PricesCur(val value_avg: Float, val value_sell: Float, val value_buy: Float)
+@Serializable
+data class ApiBlue(val oficial: PricesCur, val blue: PricesCur)
+
+
+@Serializable
+data class Pair(val last: String)
+@Serializable
+data class Cex(val data: List<Pair>)
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -51,15 +65,30 @@ class InfoFragment : Fragment() {
 
         currenciesAPI.getPrices("https://cex.io/api/tickers/BTC/USD") { result ->
 
+            val obj = Json{ignoreUnknownKeys=true}.decodeFromString<Cex>(result)
+            Log.d("info", obj.toString())
+            Log.d("info", "btc: " + obj.data[0].last)
+
             activity?.runOnUiThread {
                 Log.d("currenciesAPI", "from infoFragment ")
+                val lblOutput: TextView = requireView().findViewById(R.id.lblAmountBTC)
+                lblOutput.text = "${obj.data[0].last} USD"
             }
         }
 
         currenciesAPI.getPrices("https://api.bluelytics.com.ar/v2/latest") { result ->
 
+            val obj = Json{ignoreUnknownKeys=true}.decodeFromString<ApiBlue>(result)
+            Log.d("info", obj.toString())
+            Log.d("info", "oficial: " + obj.oficial.value_avg.toString())
+            Log.d("info", "blue: " + obj.blue.value_avg.toString())
+
             activity?.runOnUiThread {
                 Log.d("currenciesAPI", "from infoFragment ")
+                val lblOutputOf: TextView = requireView().findViewById(R.id.lblAmountOficial)
+                lblOutputOf.text = "${obj.oficial.value_avg.toString()} ARS"
+                val lblOutputBl: TextView = requireView().findViewById(R.id.lblAmountBlue)
+                lblOutputBl.text = "${obj.blue.value_avg.toString()} ARS"
             }
         }
 
@@ -99,3 +128,5 @@ class InfoFragment : Fragment() {
             }
     }
 }
+
+

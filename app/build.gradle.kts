@@ -1,8 +1,11 @@
 plugins {
     id("com.android.application")
+    kotlin("plugin.serialization") version "1.9.20"
     id("org.jetbrains.kotlin.android")
     // Add the Kotlin Android Extensions plugin for Kotlin KAPT
     id("kotlin-kapt")
+//    kotlin("jvm") // or kotlin("multiplatform") or any other kotlin plugin
+//    kotlin("multiplatform")
 }
 
 android {
@@ -39,6 +42,7 @@ android {
 
 dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.1")
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.8.0")
