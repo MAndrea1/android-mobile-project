@@ -4,13 +4,14 @@ import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.androidproject.R
-import com.example.androidproject.adapters.WalletAdapter
 import com.example.androidproject.api.CurrenciesAPI
 import com.example.androidproject.api.HttpClientSingleton
 import com.example.androidproject.room.Wallet
@@ -20,8 +21,12 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.encodeToString
 import java.math.RoundingMode
+import android.content.Context
+import android.content.Intent
+import com.example.androidproject.activities.LoginActivity
+import com.example.androidproject.activities.MainActivity
+import com.example.androidproject.activities.WalletActivity
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -47,7 +52,7 @@ class DashboardFragment : Fragment() {
 
     private fun getData() {
         if (walletList.size == 0) {
-            val fragmentID: TextView = requireView().findViewById(R.id.fragmentID)
+            val fragmentID: TextView = requireView().findViewById(R.id.lblWalletTotal)
             fragmentID.text = getString(R.string.no_wallets)
         }
 
@@ -71,7 +76,7 @@ class DashboardFragment : Fragment() {
 
             // Update UI
             activity?.runOnUiThread {
-                val fragmentID: TextView = requireView().findViewById(R.id.fragmentID)
+                val fragmentID: TextView = requireView().findViewById(R.id.lblWalletTotal)
                 val formattedString = getString(R.string.wallet_total, totalUSD.toBigDecimal().setScale(2, RoundingMode.HALF_EVEN).toString())
                 fragmentID.text = formattedString
             }
@@ -109,6 +114,7 @@ class DashboardFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
@@ -123,6 +129,29 @@ class DashboardFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_dashboard, container, false)
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.dashboard_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_logout -> {
+                Log.d("dash", "button pressed")
+                val cred = requireActivity().getSharedPreferences(LOGIN_DATA, Context.MODE_PRIVATE)
+                val editor = cred.edit()
+                editor.putString("username", "")
+                editor.putString("password", "")
+                editor.apply()
+
+                val intent = Intent(requireActivity(), LoginActivity::class.java)
+                startActivity(intent)
+                requireActivity().finish()
+                true
+            }
+            else -> return super.onOptionsItemSelected(item)
+        }
+    }
+
     companion object {
         /**
          * Use this factory method to create a new instance of
@@ -132,7 +161,7 @@ class DashboardFragment : Fragment() {
          * @param param2 Parameter 2.
          * @return A new instance of fragment DashboardFragment.
          */
-        // TODO: Rename and change types and number of parameters
+        val LOGIN_DATA = "SharedPrefLogin"
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
             DashboardFragment().apply {
