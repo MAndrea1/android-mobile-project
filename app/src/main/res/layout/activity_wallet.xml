@@ -19,8 +19,11 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:hint="@string/et_wallet_name"
+        android:textColorHint="#8D6E63"
+        android:importantForAutofill="no"
         android:inputType="text"
-        android:padding="12dp" />
+        android:padding="12dp"
+        tools:ignore="VisualLintTextFieldSize" />
 
     <!-- Amount -->
     <EditText
@@ -29,8 +32,11 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:hint="@string/et_amount"
+        android:textColorHint="#8D6E63"
         android:inputType="numberDecimal"
-        android:padding="12dp" />
+        android:padding="12dp"
+        android:importantForAutofill="no"
+        tools:ignore="VisualLintTextFieldSize" />
 
     <!-- Currency Spinner -->
     <Spinner

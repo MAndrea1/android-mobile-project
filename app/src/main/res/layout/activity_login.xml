@@ -28,6 +28,7 @@
         android:autofillHints="username"
         android:ems="10"
         android:hint="@string/name"
+        android:textColorHint="#AAAAAA"
         android:inputType="text"
         app:layout_constraintBottom_toTopOf="@+id/etPassword"
         app:layout_constraintEnd_toEndOf="parent"
@@ -43,10 +44,12 @@
         android:ems="10"
         android:hint="@string/password"
         android:inputType="textPassword"
+        android:textColorHint="#AAAAAA"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="TextContrastCheck" />
 
     <ImageView
         android:id="@+id/ivLogo"

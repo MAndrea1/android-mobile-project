@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="end"
-        android:text="0.00"
+        android:text=""
         android:textSize="20sp" />
 
     <TextView
@@ -28,6 +28,6 @@
         android:layout_weight="1"
         android:textSize="20sp"
         android:gravity="end"
-        android:text="CUR" />
+        android:text="" />
 
 </LinearLayout>
