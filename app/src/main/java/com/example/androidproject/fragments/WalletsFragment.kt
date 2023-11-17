@@ -22,8 +22,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-import java.util.Arrays
-
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
@@ -39,7 +37,7 @@ class WalletsFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
-    private lateinit var adapter : WalletAdapter
+    private lateinit var walletAdapter : WalletAdapter
     private lateinit var recyclerView: RecyclerView
     private lateinit var walletList: ArrayList<Wallet>
     private val walletDatabase by lazy { WalletDatabase.getDatabase(requireContext()).walletDao() }
@@ -50,11 +48,11 @@ class WalletsFragment : Fragment() {
         }
     }
     private fun initializeRecyclerView(view: View) {
-        adapter = WalletAdapter(walletList)
+        walletAdapter = WalletAdapter(walletList)
         recyclerView = view.findViewById(R.id.recycler_wallet)
         val recyclerLayout = LinearLayoutManager(context)
         recyclerView.layoutManager = recyclerLayout
-        recyclerView.adapter = adapter
+        recyclerView.adapter = walletAdapter
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -91,6 +89,20 @@ class WalletsFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_wallets, container, false)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        refreshData()
+    }
+
+    private fun refreshData() {
+        lifecycleScope.launch(Dispatchers.Main) {
+            getWalletsFromDB()
+            walletAdapter.updateData(walletList) // Set the updated list to the adapter
+//            walletAdapter.notifyDataSetChanged()
+            Log.d("WalletsFragment", "Data refreshed: $walletList")
+        }
     }
 
     companion object {

@@ -45,22 +45,26 @@ class DashboardFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-    private lateinit var walletList: ArrayList<Wallet>
+    private var walletList: ArrayList<Wallet>? = null
     private val walletDatabase by lazy { WalletDatabase.getDatabase(requireContext()).walletDao() }
     private var btcToUsd: Double? = null
     private var usdToArs: Double? = null
 
     private fun getData() {
-        if (walletList.size == 0) {
+        if (walletList == null || btcToUsd == null || usdToArs == null) {
+            return
+        }
+
+        if (walletList!!.size == 0) {
             val fragmentID: TextView = requireView().findViewById(R.id.lblWalletTotal)
             fragmentID.text = getString(R.string.no_wallets)
         }
 
-        if (walletList.size > 0 && btcToUsd != null && usdToArs !== null) {
+        if (walletList!!.size > 0 && btcToUsd != null && usdToArs !== null) {
             var totalUSD = 0.0
             Log.d("dash", "Values not null: " + totalUSD)
 
-            for (wallet in walletList) {
+            for (wallet in walletList!!) {
                 Log.d("dash", wallet.toString())
                 if (wallet.walletCurrency == "USD") {
                     totalUSD += wallet.walletAmount.toDouble()
@@ -151,6 +155,16 @@ class DashboardFragment : Fragment() {
             else -> return super.onOptionsItemSelected(item)
         }
     }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("Dashboard", "on dashboard onResume")
+        lifecycleScope.launch(Dispatchers.Main) {
+            walletList = ArrayList(walletDatabase.getAllWallets())
+            getData()
+        }
+    }
+
 
     companion object {
         /**

@@ -1,5 +1,6 @@
 package com.example.androidproject.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +10,7 @@ import com.example.androidproject.R
 import com.example.androidproject.room.Wallet
 
 
-class WalletAdapter(private val walletList : ArrayList<Wallet>) : RecyclerView.Adapter<WalletAdapter.WalletViewHolder>() {
+class WalletAdapter(private var walletList : ArrayList<Wallet>) : RecyclerView.Adapter<WalletAdapter.WalletViewHolder>() {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -29,6 +30,7 @@ class WalletAdapter(private val walletList : ArrayList<Wallet>) : RecyclerView.A
     }
 
     override fun getItemCount(): Int {
+        Log.d("walletsFrag", "getItemCount: ${walletList.size}")
         return walletList.size
     }
 
@@ -36,5 +38,10 @@ class WalletAdapter(private val walletList : ArrayList<Wallet>) : RecyclerView.A
         val walletName : TextView = itemView.findViewById(R.id.lblWalletName)
         val walletCurrency : TextView = itemView.findViewById(R.id.lblWalletCurrency)
         val walletAmount : TextView = itemView.findViewById(R.id.lblWalletAmount)
+    }
+
+    fun updateData(newWalletList: ArrayList<Wallet>) {
+        walletList = newWalletList
+        notifyDataSetChanged()
     }
 }
