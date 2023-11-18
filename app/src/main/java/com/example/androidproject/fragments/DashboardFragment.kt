@@ -152,6 +152,10 @@ class DashboardFragment : Fragment() {
                 requireActivity().finish()
                 true
             }
+            R.id.action_settings -> {
+                Log.d("settingsFeature", "in action settings")
+                true
+            }
             else -> return super.onOptionsItemSelected(item)
         }
     }
