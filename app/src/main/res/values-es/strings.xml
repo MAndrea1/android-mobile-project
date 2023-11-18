@@ -13,12 +13,15 @@
     <string name="et_wallet_name">Nombre de wallet</string>
     <string name="et_amount">Monto</string>
     <string name="btn_save">Guardar</string>
-    <string name="lbl_oficial">Oficial</string>
+    <string name="lbl_official">Oficial</string>
     <string name="lbl_blue">Blue</string>
-    <string name="wallet_total">Total en wallets: %s USD</string>
+    <string name="wallet_total">Total en wallets:\n %s %s</string>
     <string name="no_wallets">Sin wallets disponibles</string>
     <string name="logout">Cerrar sesión</string>
     <string name="getting_wallets">Obteniendo wallets…</string>
     <string name="incorrect_name_or_password">Nombre o Password incorrecto</string>
     <string name="settings">Ajustes</string>
+    <string name="dashboard_currency">Moneda</string>
+    <string name="dashboard_settings">Ajustes de inicio</string>
+    <string name="title_activity_settings">Ajustes</string>
 </resources>

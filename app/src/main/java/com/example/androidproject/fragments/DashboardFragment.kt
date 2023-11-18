@@ -24,31 +24,20 @@ import kotlinx.serialization.json.Json
 import java.math.RoundingMode
 import android.content.Context
 import android.content.Intent
+import androidx.preference.PreferenceManager
 import com.example.androidproject.activities.LoginActivity
-import com.example.androidproject.activities.MainActivity
-import com.example.androidproject.activities.WalletActivity
-
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+import com.example.androidproject.activities.SettingsActivity
 
 @Serializable
 data class Project(val name: String, val language: String)
 
-/**
- * A simple [Fragment] subclass.
- * Use the [DashboardFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class DashboardFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
     private var walletList: ArrayList<Wallet>? = null
     private val walletDatabase by lazy { WalletDatabase.getDatabase(requireContext()).walletDao() }
     private var btcToUsd: Double? = null
     private var usdToArs: Double? = null
+    private var usdToArsBlue: Double? = null
+    private var walletCurrency: String = "USD"
 
     private fun getData() {
         if (walletList == null || btcToUsd == null || usdToArs == null) {
@@ -61,27 +50,69 @@ class DashboardFragment : Fragment() {
         }
 
         if (walletList!!.size > 0 && btcToUsd != null && usdToArs !== null) {
-            var totalUSD = 0.0
-            Log.d("dash", "Values not null: " + totalUSD)
+            var totalAmount = 0.0
+            var currency = walletCurrency
+            Log.d("dash", "Values not null: " + totalAmount)
 
-            for (wallet in walletList!!) {
-                Log.d("dash", wallet.toString())
-                if (wallet.walletCurrency == "USD") {
-                    totalUSD += wallet.walletAmount.toDouble()
+            Log.d("settingsFeature", "walletCurrency " + walletCurrency)
+
+            when(walletCurrency) {
+                "USD" -> {
+
+                    for (wallet in walletList!!) {
+                        Log.d("dash", wallet.toString())
+                        if (wallet.walletCurrency == "USD") {
+                            totalAmount += wallet.walletAmount.toDouble()
+                        }
+                        if (wallet.walletCurrency == "BTC") {
+                            totalAmount += wallet.walletAmount.toDouble() * btcToUsd!!
+                        }
+                        if (wallet.walletCurrency == "ARS") {
+                            totalAmount += wallet.walletAmount.toDouble() / usdToArs!!
+                        }
+                    }
                 }
-                if (wallet.walletCurrency == "BTC") {
-                    totalUSD += wallet.walletAmount.toDouble() * btcToUsd!!
+                "Blue" -> {
+                    currency = "ARS $walletCurrency"
+
+                    for (wallet in walletList!!) {
+                        Log.d("dash", wallet.toString())
+                        if (wallet.walletCurrency == "USD") {
+                            totalAmount += wallet.walletAmount.toDouble() * usdToArsBlue!!
+                        }
+                        if (wallet.walletCurrency == "BTC") {
+                            totalAmount += wallet.walletAmount.toDouble() * btcToUsd!! * usdToArsBlue!!
+                        }
+                        if (wallet.walletCurrency == "ARS") {
+                            totalAmount += wallet.walletAmount.toDouble()
+                        }
+                    }
                 }
-                if (wallet.walletCurrency == "ARS") {
-                    totalUSD += wallet.walletAmount.toDouble() / usdToArs!!
+                "Official" -> {
+                    currency = "ARS " + getString(R.string.lbl_official)
+
+                    for (wallet in walletList!!) {
+                        Log.d("dash", wallet.toString())
+                        if (wallet.walletCurrency == "USD") {
+                            totalAmount += wallet.walletAmount.toDouble() * usdToArs!!
+                        }
+                        if (wallet.walletCurrency == "BTC") {
+                            totalAmount += wallet.walletAmount.toDouble() * btcToUsd!! * usdToArs!!
+                        }
+                        if (wallet.walletCurrency == "ARS") {
+                            totalAmount += wallet.walletAmount.toDouble()
+                        }
+                    }
                 }
+
             }
-            Log.d("dash", "Values not null: " + totalUSD)
+
+            Log.d("dash", "Values not null: $totalAmount")
 
             // Update UI
             activity?.runOnUiThread {
                 val fragmentID: TextView = requireView().findViewById(R.id.lblWalletTotal)
-                val formattedString = getString(R.string.wallet_total, totalUSD.toBigDecimal().setScale(2, RoundingMode.HALF_EVEN).toString())
+                val formattedString = getString(R.string.wallet_total, totalAmount.toBigDecimal().setScale(2, RoundingMode.HALF_EVEN).toString(), currency)
                 fragmentID.text = formattedString
             }
         }
@@ -95,6 +126,7 @@ class DashboardFragment : Fragment() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         val okHttpClient = HttpClientSingleton.instance
         val currenciesAPI = CurrenciesAPI(okHttpClient, viewLifecycleOwner.lifecycleScope)
 
@@ -108,6 +140,7 @@ class DashboardFragment : Fragment() {
 
             val obj = Json{ignoreUnknownKeys=true}.decodeFromString<ApiBlue>(result)
             usdToArs = obj.oficial.value_avg.toDouble()
+            usdToArsBlue = obj.blue.value_avg.toDouble()
             getData()
         }
 
@@ -120,8 +153,6 @@ class DashboardFragment : Fragment() {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
         }
     }
 
@@ -154,6 +185,8 @@ class DashboardFragment : Fragment() {
             }
             R.id.action_settings -> {
                 Log.d("settingsFeature", "in action settings")
+                val intent = Intent(requireActivity(), SettingsActivity::class.java)
+                startActivity(intent)
                 true
             }
             else -> return super.onOptionsItemSelected(item)
@@ -162,9 +195,14 @@ class DashboardFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+
+        val sharedPref = PreferenceManager.getDefaultSharedPreferences(requireContext())
+        walletCurrency = sharedPref.getString("currency", "USD") ?: "USD"
+
         Log.d("Dashboard", "on dashboard onResume")
         lifecycleScope.launch(Dispatchers.Main) {
             walletList = ArrayList(walletDatabase.getAllWallets())
+
             getData()
         }
     }
@@ -184,8 +222,6 @@ class DashboardFragment : Fragment() {
         fun newInstance(param1: String, param2: String) =
             DashboardFragment().apply {
                 arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
                 }
             }
     }

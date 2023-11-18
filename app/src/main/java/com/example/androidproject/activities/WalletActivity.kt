@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.Spinner
+import androidx.appcompat.widget.Toolbar
 import com.example.androidproject.R
 import com.example.androidproject.room.Wallet
 import com.example.androidproject.room.WalletDatabase
@@ -34,6 +35,9 @@ class WalletActivity : AppCompatActivity() {
 
         spinner.adapter = adapter
 
+        val toolbar: Toolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
     fun saveWalletClicked(view: View) {

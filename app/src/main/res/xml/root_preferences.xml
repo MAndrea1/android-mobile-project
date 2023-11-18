@@ -1,0 +1,15 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory app:title="@string/dashboard_settings">
+
+        <ListPreference
+            app:defaultValue="USD"
+            app:entries="@array/cur_entries"
+            app:entryValues="@array/cur_values"
+            app:key="currency"
+            app:title="@string/dashboard_currency"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>
