@@ -63,7 +63,8 @@ class LoginActivity : AppCompatActivity() {
                     accessWallet()
                 } else {
                     val rootView = findViewById<View>(R.id.activity_login)
-                    val snackbar = Snackbar.make(rootView, "Incorrect name or password", Snackbar.LENGTH_LONG)
+                    val snackbar = Snackbar.make(rootView,
+                        getString(R.string.incorrect_name_or_password), Snackbar.LENGTH_LONG)
                     snackbar.show()
                     // Log.d("login", "Incorrect name or password $username $password")
                 }

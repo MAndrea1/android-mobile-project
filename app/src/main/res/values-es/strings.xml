@@ -19,4 +19,5 @@
     <string name="no_wallets">Sin wallets disponibles</string>
     <string name="logout">Cerrar sesión</string>
     <string name="getting_wallets">Obteniendo wallets…</string>
+    <string name="incorrect_name_or_password">Nombre o Password incorrecto</string>
 </resources>

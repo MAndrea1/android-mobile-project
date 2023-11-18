@@ -20,4 +20,5 @@
     <string name="no_wallets">No wallets available</string>
     <string name="getting_wallets">Getting Wallets…</string>
     <string name="logout">Logout</string>
+    <string name="incorrect_name_or_password">Incorrect name or password</string>
 </resources>
