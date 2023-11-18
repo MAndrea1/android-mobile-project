@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Android Project</string>
+    <string name="login">Login</string>
+    <string name="name">Nombre</string>
+    <string name="password">Contraseña</string>
+    <string name="wallet_logo">Wallet logo</string>
+    <string name="tab_label_dashboards">Inicio</string>
+    <string name="tab_label_wallets">Wallets</string>
+    <string name="tab_label_info">Información</string>
+    <string name="menu_item_add_wallet">Añadir wallet</string>
+    <string name="tab_menu_speakable">Pestañas para Inicio, Wallets e Información</string>
+    <string name="et_wallet_name">Nombre de wallet</string>
+    <string name="et_amount">Monto</string>
+    <string name="btn_save">Guardar</string>
+    <string name="lbl_oficial">Oficial</string>
+    <string name="lbl_blue">Blue</string>
+    <string name="wallet_total">Total en wallets: %s USD</string>
+    <string name="no_wallets">Sin wallets disponibles</string>
+    <string name="logout">Cerrar sesión</string>
+    <string name="getting_wallets">Obteniendo wallets…</string>
+</resources>

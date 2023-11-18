@@ -14,8 +14,8 @@
     <string name="btn_save">Save</string>
     <string name="lbl_oficial">Oficial</string>
     <string name="lbl_blue">Blue</string>
-    <string name="lbl_usd">USD</string>
-    <string name="lbl_btc">BTC</string>
+    <string name="lbl_usd" translatable="false">USD</string>
+    <string name="lbl_btc" translatable="false">BTC</string>
     <string name="wallet_total">Wallets total: %s USD</string>
     <string name="no_wallets">No wallets available</string>
     <string name="getting_wallets">Getting Wallets…</string>
